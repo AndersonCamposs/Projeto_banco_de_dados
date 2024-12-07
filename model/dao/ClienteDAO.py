@@ -1,5 +1,4 @@
-from sqlite3 import Cursor
-from .GenericDAO import GenericDAO
+from model.dao.GenericDAO import GenericDAO
 from model.entity.Cliente import Cliente
 
 class ClienteDAO(GenericDAO):
@@ -21,9 +20,13 @@ class ClienteDAO(GenericDAO):
             [cpf]
         )
         data = self.cursor.fetchone()
-        print(data)
-        cliente = Cliente(id=data[0], nome=data[1], cpf=data[2], 
-        dataNascimento=data[3], email=data[4], celular=data[5])
+        
+        try:
+            cliente = Cliente(id=data[0], nome=data[1], cpf=data[2], 
+            dataNascimento=data[3], email=data[4], celular=data[5])
+        except TypeError:
+            return None
+        
         return cliente
     
 

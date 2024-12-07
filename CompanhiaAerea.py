@@ -29,7 +29,7 @@ class CompanhiaAerea:
                     dataNascimento = input("INFORME A DATA DE NASCIMENTO(dd/mm/aaaa): ")
                     email = input("INFORME O EMAIL DO CLIENTE: ")
                     celular = input("INFORME O CELULAR DO CLIENTE: ")
-
+    
                     cliente = Cliente(id=None, nome=nome, cpf=cpf, dataNascimento=dataNascimento, email=email, celular=celular)
                     ClienteDAO().insert(cliente)
                     print("+================================================================+")
@@ -41,10 +41,15 @@ class CompanhiaAerea:
                     print("============================")
                     cpf = input("INFORME O CPF DO CLIENTE: ")
                     cliente = ClienteDAO().fetchByCpf(cpf)
-                    table = PrettyTable()
-                    table.field_names = ["ID", "NOME", "CPF", "DATA DE NASCIMENTO", "E-MAIL", "CELULAR"]
-                    table.add_row([cliente.id, cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular])
-                    print(table)
+                    if(cliente != None):
+                        table = PrettyTable()
+                        table.field_names = ["ID", "NOME", "CPF", "DATA DE NASCIMENTO", "E-MAIL", "CELULAR"]
+                        table.add_row([cliente.id, cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular])
+                        print(table)
+                    else:
+                        print("+==========================================================================+")
+                        print("|                          CLIENTE NÃO ENCONTRADO                          |")
+                        print("+==========================================================================+")
                     print("+==========================================================================+")
                     print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
                     print("+==========================================================================+")
