@@ -49,7 +49,16 @@ class CompanhiaAerea:
                     print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
                     print("+==========================================================================+")
                     input()
-                    
+                else:
+                    print(
+                        '''
+        ++================================================================++
+        || OPÇÃO INVÁLIDA, TENTE NOVAMENTE, PRESSIONE ENTER PARA CONTINUAR ||
+        ++================================================================++
+        '''
+                    )
+                    input()
+                
 
             else:
                 print(
