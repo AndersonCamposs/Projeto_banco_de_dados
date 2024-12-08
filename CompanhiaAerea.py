@@ -1,11 +1,14 @@
 import sys
 import os
+from datetime import date
 from prettytable import PrettyTable
 from utils.Menu import Menu
 from model.dao.ClienteDAO import ClienteDAO
 from model.dao.VooDAO import VooDAO
+from model.dao.ReservaDAO import ReservaDAO
 from model.entity.Cliente import Cliente
 from model.entity.Voo import Voo
+from model.entity.Reserva import Reserva
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
@@ -25,6 +28,7 @@ class CompanhiaAerea:
                 Menu.menuCliente()
                 opcao = input("INFORME A OPÇÃO DESEJADA: ")
                 if(opcao == "0"):
+                    os.system("cls")
                     continue
                 
                 elif (opcao == "1"):
@@ -45,7 +49,7 @@ class CompanhiaAerea:
                 elif (opcao == "2"):
                     print("============================")
                     cpf = input("INFORME O CPF DO CLIENTE: ")
-                    cliente = ClienteDAO().fetchByCpf(cpf)
+                    cliente = ClienteDAO().getByCpf(cpf)
                     if(cliente != None):
                         table = PrettyTable()
                         table.field_names = ["ID", "NOME", "CPF", "DATA DE NASCIMENTO", "E-MAIL", "CELULAR"]
@@ -74,7 +78,8 @@ class CompanhiaAerea:
                 Menu.menuVoo()
                 opcao = input("INFORME A OPÇÃO DESEJADA: ")
                 if(opcao == "0"):
-                    continue
+                    os.system("cls")
+                    continue                 
                 
                 elif(opcao == "1"):
                     print("============================")
@@ -111,6 +116,76 @@ class CompanhiaAerea:
                         print("+==========================================================================+")
                         input()
                 
+            elif(opcao == "3"):
+                os.system("cls")
+                Menu.menuReserva()
+                opcao = input("INFORME A OPÇÃO DESEJADA: ")
+                if(opcao == "0"):
+                    os.system("cls")
+                    continue   
+
+                elif(opcao == "1"):
+                    print("============================")
+                    cpfCliente = input("INFORME O CPF DO CLIENTE: ")
+                    cliente = ClienteDAO().getByCpf(cpfCliente)
+                    if (cliente == None):
+                        print("+==========================================================================+")
+                        print("|                          CLIENTE NÃO ENCONTRADO                          |")
+                        print("+==========================================================================+")
+                        print("+==========================================================================+")
+                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
+                        print("+==========================================================================+")
+                        input()
+                        os.system("cls")
+                        continue
+                    
+                    idVoo = input("INFORME O ID DO VOO: ")
+                    voo = VooDAO().getById(idVoo)
+                    if(voo == None):
+                        print("+==========================================================================+")
+                        print("|                            VOO NÃO ENCONTRADO                            |")
+                        print("+==========================================================================+")
+                        print("+==========================================================================+")
+                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
+                        print("+==========================================================================+")
+                        input()
+                        os.system("cls")
+                        continue
+
+                    dataAtual = date.today().strftime("%d/%m/%Y")
+
+                    valor = float(input("INFORME O VALOR DA RESERVA: "))
+                    reserva = Reserva(id = None, idCliente = cliente.id, idVoo = voo.id, data=dataAtual, valor=valor)
+                    ReservaDAO().insert(reserva=reserva)
+                    print("+================================================================+")
+                    print("| RESERVA CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR |")
+                    print("+================================================================+")
+                    input()
+
+                elif(opcao == "2"):
+                    id = input("INFORME O ID DA RESERVA: ")
+                    reserva = ReservaDAO().getById(id)
+                    if(reserva != None):
+                        cliente = ClienteDAO().getById(reserva.idCliente)
+                        voo = VooDAO().getById(reserva.idVoo)
+                        table = PrettyTable()
+                        table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
+                        table.add_row([voo.id, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor])
+                        print(table)
+                        print("+==========================================================================+")
+                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
+                        print("+==========================================================================+")
+                        input()
+                    else:
+                        print("+==========================================================================+")
+                        print("|                            VOO NÃO ENCONTRADO                            |")
+                        print("+==========================================================================+")
+                        print("+==========================================================================+")
+                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
+                        print("+==========================================================================+")
+                        input()
+
+
                 else:
                     print(
                         '''

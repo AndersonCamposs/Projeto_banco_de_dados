@@ -1,6 +1,6 @@
 from typing import Union
 
-class Voo:
+class Reserva:
     def __init__(self, id: Union[int, None], idCliente: int, idVoo: int, data: str, valor: float ):
         self._id = id
         self._idCliente = idCliente
@@ -37,4 +37,5 @@ class Voo:
     def valor(self) -> float:
         return self._valor
     @valor.setter
-    def valor(self, novoValor: float)
+    def valor(self, novoValor: float): 
+        self._valor = novoValor
