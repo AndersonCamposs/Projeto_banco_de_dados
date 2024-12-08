@@ -35,5 +35,6 @@ class Menu:
         table.field_names = ["COD.", "OPÇÃO"]
         table.add_row(["1", "NOVA RESERVA"], divider=True)
         table.add_row(["2", "RELATÓRIO DE RESERVA"], divider=True)
+        table.add_row(["3", "BUSCAR RESERVAS POR VOO"], divider=True)
         table.add_row(["0", "VOLTAR"], divider=True)
         print(table)

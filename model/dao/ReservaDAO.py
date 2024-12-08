@@ -27,3 +27,19 @@ class ReservaDAO(GenericDAO):
         except TypeError:
             return None
         
+    def listByVooId(self, idVoo: int) -> Union[list[Reserva], None]:
+        try:
+            self.cursor.execute(
+                '''SELECT * FROM Reserva WHERE idVoo = ?''',
+                [idVoo]
+            )
+            data = self.cursor.fetchall()
+            print(data)
+            listaReservas = []
+            for registro in data:
+                reserva = Reserva(id=registro[0], idCliente=registro[1], idVoo=registro[2], data=registro[3], valor=registro[4])
+                listaReservas.append(reserva)
+
+            return listaReservas
+        except TypeError:
+            return None

@@ -36,7 +36,7 @@ class CompanhiaAerea:
                     nome = input("INFORME O NOME DO CLIENTE: ")
                     cpf = input("INFORME O CPF DO CLIENTE: ")
                     dataNascimento = input("INFORME A DATA DE NASCIMENTO(dd/mm/aaaa): ")
-                    email = input("INFORME O EMAIL DO CLIENTE: ")
+                    email = input("INFORME O E-MAIL DO CLIENTE: ")
                     celular = input("INFORME O CELULAR DO CLIENTE: ")
     
                     cliente = Cliente(id=None, nome=nome, cpf=cpf, dataNascimento=dataNascimento, email=email, celular=celular)
@@ -153,14 +153,19 @@ class CompanhiaAerea:
                         continue
 
                     dataAtual = date.today().strftime("%d/%m/%Y")
-
-                    valor = float(input("INFORME O VALOR DA RESERVA: "))
-                    reserva = Reserva(id = None, idCliente = cliente.id, idVoo = voo.id, data=dataAtual, valor=valor)
-                    ReservaDAO().insert(reserva=reserva)
-                    print("+================================================================+")
-                    print("| RESERVA CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR |")
-                    print("+================================================================+")
-                    input()
+                    try:
+                        valor = float(input("INFORME O VALOR DA RESERVA: "))
+                        reserva = Reserva(id = None, idCliente = cliente.id, idVoo = voo.id, data=dataAtual, valor=valor)
+                        ReservaDAO().insert(reserva=reserva)
+                        print("+================================================================+")
+                        print("| RESERVA CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR |")
+                        print("+================================================================+")
+                        input()
+                    except ValueError:
+                        print("+================================================================+")
+                        print("|    VALOR DA RESERVA INVÁLIDO, PRESSIONE ENTER PARA CONTINUAR   |")
+                        print("+================================================================+")
+                        input()
 
                 elif(opcao == "2"):
                     id = input("INFORME O ID DA RESERVA: ")
@@ -170,7 +175,7 @@ class CompanhiaAerea:
                         voo = VooDAO().getById(reserva.idVoo)
                         table = PrettyTable()
                         table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
-                        table.add_row([voo.id, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor])
+                        table.add_row([reserva.id, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor])
                         print(table)
                         print("+==========================================================================+")
                         print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
@@ -185,7 +190,33 @@ class CompanhiaAerea:
                         print("+==========================================================================+")
                         input()
 
+                elif(opcao == "3"):
+                    print("============================")
+                    idVoo = input("INFORME O ID DO VOO: ")
+                    voo = VooDAO().getById(idVoo)
+                    if(voo == None):
+                        print("+==========================================================================+")
+                        print("|                            VOO NÃO ENCONTRADO                            |")
+                        print("+==========================================================================+")
+                        print("+==========================================================================+")
+                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
+                        print("+==========================================================================+")
+                        input()
+                        os.system("cls")
+                        continue
+                    
+                    listaReservas = ReservaDAO().listByVooId(idVoo)
+                    table = PrettyTable()
+                    table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
+                    for reserva in listaReservas:
+                        cliente = ClienteDAO().getById(reserva.idCliente)
+                        table.add_row([reserva.id, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor], divider=True)
 
+                    print(table)
+                    print("+==========================================================================+")
+                    print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
+                    print("+==========================================================================+")
+                    input()
                 else:
                     print(
                         '''
@@ -212,4 +243,4 @@ class CompanhiaAerea:
 
 
 
-CompanhiaAerea.main()
+CompanhiaAerea.main()()
