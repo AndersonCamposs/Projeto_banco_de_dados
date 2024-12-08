@@ -29,5 +29,5 @@ class Voo:
     def data(self):
         return self._data
     @data.setter
-    def data(self, novaData):
+    def data(self, novaData: str):
         self._data = novaData
