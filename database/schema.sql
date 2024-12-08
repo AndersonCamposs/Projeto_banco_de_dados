@@ -21,6 +21,10 @@ CREATE TABLE IF NOT EXISTS Reserva (
     idVoo INTEGER NOT NULL,
     data TEXT NOT NULL,
     valor REAL NOT NULL,
-    FOREIGN KEY (idCliente) REFERENCES Cliente(id),
+    FOREIGN KEY (idCliente) REFERENCES Cliente(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (idVoo) REFERENCES Voo(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );

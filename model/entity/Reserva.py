@@ -1,10 +1,12 @@
 from typing import Union
+from .Voo import Voo
+from .Cliente import Cliente
 
 class Reserva:
-    def __init__(self, id: Union[int, None], idCliente: int, idVoo: int, data: str, valor: float ):
+    def __init__(self, id: Union[int, None], cliente: Cliente, voo: Voo, data: str, valor: float ):
         self._id = id
-        self._idCliente = idCliente
-        self._idVoo = idVoo
+        self._cliente = cliente
+        self._voo = voo
         self._data = data
         self._valor = valor
 
@@ -13,18 +15,17 @@ class Reserva:
         return self._id
     
     @property
-    def idCliente(self) -> str:
-        return self._idCliente
-    @idCliente.setter
-    def idCliente(self, novoidCliente: int) -> None:
-        self._idCliente = novoidCliente
-
+    def cliente(self) -> Cliente:
+        return self._cliente
+    @cliente.setter
+    def cliente(self, cliente: Cliente) -> None:
+        self._cliente = cliente
     @property
-    def idVoo(self) -> str:
-        return self._idVoo
-    @idVoo.setter
-    def idVoo(self, novoidVoo: int) -> None:
-        self._idCliente = novoidVoo
+    def voo(self) -> Voo:
+        return self._voo
+    @voo.setter
+    def voo(self, voo: Voo) -> None:
+        self._voo = voo
 
     @property
     def data(self):

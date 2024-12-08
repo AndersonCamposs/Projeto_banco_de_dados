@@ -36,6 +36,7 @@ class Menu:
         table.field_names = ["COD.", "OPÇÃO"]
         table.add_row(["1", "NOVO VOO"], divider=True)
         table.add_row(["2", "RELATÓRIO DE VOO"], divider=True)
+        table.add_row(["3", "DELETAR VOO"], divider=True)
         table.add_row(["0", "VOLTAR"], divider=True)
         print(table)
 

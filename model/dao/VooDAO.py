@@ -1,4 +1,5 @@
 from typing import Union
+from sqlite3 import IntegrityError
 from .GenericDAO import GenericDAO
 from model.entity.Voo import Voo
 
@@ -28,4 +29,12 @@ class VooDAO(GenericDAO):
             return voo
         except TypeError:
             return None
+        
+    def delete(self, id: int) -> bool:
+        try: 
+            self.cursor.execute("DELETE FROM Voo WHERE id = ?", [id])
+            self.conn.commit()
+            return True
+        except IntegrityError:
+            return False
         

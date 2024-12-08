@@ -154,6 +154,7 @@ class CompanhiaAerea:
                         print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
                         print("+==========================================================================+")
                         input()
+                    
                     else:
                         print("+==========================================================================+")
                         print("|                            VOO NÃO ENCONTRADO                            |")
@@ -162,6 +163,32 @@ class CompanhiaAerea:
                         print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
                         print("+==========================================================================+")
                         input()
+
+                elif(opcao == "3"):
+                    print("============================")
+                    id = input("INFORME O ID DO VOO: ")
+                    if(VooDAO().delete(int(id))):
+                        print("+================================================================+")
+                        print("|    VOO DELETADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR    |")
+                        print("+================================================================+")
+                        input()
+                    else:
+                        print("+================================================================+")
+                        print("| HOUVE UM ERRO AO DELETAR O VOO, PRESSIONE ENTER PARA CONTINUAR |")
+                        print("+================================================================+")
+                        input()
+
+
+                else:
+                    print(
+                        '''
+        ++================================================================++
+        || OPÇÃO INVÁLIDA, TENTE NOVAMENTE, PRESSIONE ENTER PARA CONTINUAR ||
+        ++================================================================++
+        '''
+                    )
+                    input()
+
                 
             elif(opcao == "3"):
                 os.system("cls")
@@ -202,7 +229,7 @@ class CompanhiaAerea:
                     dataAtual = date.today().strftime("%d/%m/%Y")
                     try:
                         valor = float(input("INFORME O VALOR DA RESERVA: "))
-                        reserva = Reserva(id = None, idCliente = cliente.id, idVoo = voo.id, data=dataAtual, valor=valor)
+                        reserva = Reserva(id = None, cliente = cliente.id, voo = voo.id, data=dataAtual, valor=valor)
                         ReservaDAO().insert(reserva=reserva)
                         print("+================================================================+")
                         print("| RESERVA CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR |")
@@ -240,7 +267,7 @@ class CompanhiaAerea:
                 elif(opcao == "3"):
                     print("============================")
                     idVoo = input("INFORME O ID DO VOO: ")
-                    voo = VooDAO().getById(idVoo)
+                    voo = VooDAO().getById(int(idVoo))
                     if(voo == None):
                         print("+==========================================================================+")
                         print("|                            VOO NÃO ENCONTRADO                            |")
@@ -256,8 +283,7 @@ class CompanhiaAerea:
                     table = PrettyTable()
                     table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
                     for reserva in listaReservas:
-                        cliente = ClienteDAO().getById(reserva.idCliente)
-                        table.add_row([reserva.id, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor], divider=True)
+                        table.add_row([reserva.id, reserva.cliente.nome, reserva.cliente.cpf, reserva.cliente.email, reserva.voo.origem, reserva.voo.destino, reserva.voo.data, reserva.data, reserva.valor], divider=True)
 
                     print(table)
                     print("+==========================================================================+")
