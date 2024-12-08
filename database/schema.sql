@@ -14,3 +14,13 @@ CREATE TABLE IF NOT EXISTS Voo (
     destino TEXT NOT NULL,
     data TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS Reserva (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    idCliente INTEGER NOT NULL,
+    idVoo INTEGER NOT NULL,
+    data TEXT NOT NULL,
+    valor REAL NOT NULL,
+    FOREIGN KEY (idCliente) REFERENCES Cliente(id),
+    FOREIGN KEY (idVoo) REFERENCES Voo(id)
+);

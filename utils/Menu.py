@@ -28,3 +28,12 @@ class Menu:
         table.add_row(["2", "RELATÓRIO DE VOO"], divider=True)
         table.add_row(["0", "VOLTAR"], divider=True)
         print(table)
+
+    @staticmethod
+    def menuReserva():
+        table = PrettyTable()
+        table.field_names = ["COD.", "OPÇÃO"]
+        table.add_row(["1", "NOVA RESERVA"], divider=True)
+        table.add_row(["2", "RELATÓRIO DE RESERVA"], divider=True)
+        table.add_row(["0", "VOLTAR"], divider=True)
+        print(table)

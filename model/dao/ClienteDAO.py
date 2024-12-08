@@ -16,7 +16,7 @@ class ClienteDAO(GenericDAO):
         self.conn.commit()
         
     
-    def fetchByCpf(self, cpf: str) -> Union[Cliente, None]: 
+    def getByCpf(self, cpf: str) -> Union[Cliente, None]: 
         self.cursor.execute(
             '''SELECT * FROM Cliente WHERE cpf = ?''',
             [cpf]
@@ -31,5 +31,19 @@ class ClienteDAO(GenericDAO):
         
         return cliente
     
+    def getById(self, id: int) -> Union[Cliente, None]: 
+        self.cursor.execute(
+            '''SELECT * FROM Cliente WHERE id = ?''',
+            [id]
+        )
+        data = self.cursor.fetchone()
+        
+        try:
+            cliente = Cliente(id=data[0], nome=data[1], cpf=data[2], 
+            dataNascimento=data[3], email=data[4], celular=data[5])
+        except TypeError:
+            return None
+        
+        return cliente
 
     
