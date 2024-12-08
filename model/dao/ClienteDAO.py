@@ -1,3 +1,4 @@
+from .GenericDAO import GenericDAO
 from model.dao.GenericDAO import GenericDAO
 from model.entity.Cliente import Cliente
 

@@ -16,6 +16,15 @@ class Menu:
         table = PrettyTable()
         table.field_names = ["COD.", "OPÇÃO"]
         table.add_row(["1", "NOVO CLIENTE"], divider=True)
-        table.add_row(["2", "RELATÓRIO DO CLIENTE"], divider=True)
+        table.add_row(["2", "RELATÓRIO DE CLIENTE"], divider=True)
+        table.add_row(["0", "VOLTAR"], divider=True)
+        print(table)
+
+    @staticmethod
+    def menuVoo():
+        table = PrettyTable()
+        table.field_names = ["COD.", "OPÇÃO"]
+        table.add_row(["1", "NOVO VOO"], divider=True)
+        table.add_row(["2", "RELATÓRIO DE VOO"], divider=True)
         table.add_row(["0", "VOLTAR"], divider=True)
         print(table)
