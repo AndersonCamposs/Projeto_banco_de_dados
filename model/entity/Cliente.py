@@ -11,7 +11,7 @@ class Cliente:
         self._celular = celular
 
     @property
-    def id(self) -> int:
+    def id(self) -> Union[int, None]:
         return self._id
 
     @property

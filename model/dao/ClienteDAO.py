@@ -1,4 +1,3 @@
-from sqlite3 import Cursor
 from .GenericDAO import GenericDAO
 from model.entity.Cliente import Cliente
 

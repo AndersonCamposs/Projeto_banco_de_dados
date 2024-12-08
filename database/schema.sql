@@ -6,4 +6,11 @@ CREATE TABLE IF NOT EXISTS Cliente (
     data_nascimento TEXT NOT NULL,
     email TEXT NOT NULL,
     celular TEXT
-)
+);
+
+CREATE TABLE IF NOT EXISTS Voo (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    origem TEXT NOT NULL,
+    destino TEXT NOT NULL,
+    data TEXT NOT NULL
+);
