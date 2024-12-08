@@ -1,3 +1,4 @@
+from typing import Union
 from .GenericDAO import GenericDAO
 from model.dao.GenericDAO import GenericDAO
 from model.entity.Cliente import Cliente
@@ -15,7 +16,7 @@ class ClienteDAO(GenericDAO):
         self.conn.commit()
         
     
-    def fetchByCpf(self, cpf: str) -> Cliente: 
+    def fetchByCpf(self, cpf: str) -> Union[Cliente, None]: 
         self.cursor.execute(
             '''SELECT * FROM Cliente WHERE cpf = ?''',
             [cpf]
