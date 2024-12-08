@@ -14,6 +14,12 @@ class ClienteDAO(GenericDAO):
             [cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular]
         )
         self.conn.commit()
+
+    def update(self, id: int, novoEmail: Union[str, None], novoCelular: Union[str, None]) -> None:
+        restanteSQL = "celular = ?" if novoEmail == None else  "email = ?" # IF TERNÁRIO
+        sql = "UPDATE Cliente SET " + restanteSQL + " WHERE id = ?"
+        self.cursor.execute(sql, [novoEmail if novoCelular == None else novoCelular, id])
+        self.conn.commit()
         
     
     def getByCpf(self, cpf: str) -> Union[Cliente, None]: 

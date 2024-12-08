@@ -1,5 +1,7 @@
 from typing import Union
 from .GenericDAO import GenericDAO
+from .VooDAO import VooDAO
+from .ClienteDAO import ClienteDAO
 from model.entity.Reserva import Reserva
 
 class ReservaDAO(GenericDAO):
@@ -10,7 +12,7 @@ class ReservaDAO(GenericDAO):
         self.cursor.execute(
             '''INSERT INTO Reserva (idCliente, idVoo, data, valor)
             VALUES (?, ?, ?, ?)''',
-            [reserva.idCliente, reserva.idVoo, reserva.data, reserva.valor]
+            [reserva.cliente, reserva.voo, reserva.data, reserva.valor]
         )
         self.conn.commit()
 
@@ -22,7 +24,7 @@ class ReservaDAO(GenericDAO):
                 [id]
             )
             data = self.cursor.fetchone()
-            reserva = Reserva(id=data[0], idCliente=data[1], idVoo=data[2], data=data[3], valor=data[4])
+            reserva = Reserva(id=data[0], cliente=data[1], voo=data[2], data=data[3], valor=data[4])
             return reserva
         except TypeError:
             return None
@@ -34,12 +36,12 @@ class ReservaDAO(GenericDAO):
                 [idVoo]
             )
             data = self.cursor.fetchall()
-            print(data)
+            
             listaReservas = []
+            
             for registro in data:
-                reserva = Reserva(id=registro[0], idCliente=registro[1], idVoo=registro[2], data=registro[3], valor=registro[4])
+                reserva = Reserva(id=registro[0], cliente=ClienteDAO().getById(int(registro[1])), voo=VooDAO().getById(int(registro[2])), data=registro[3], valor=registro[4])
                 listaReservas.append(reserva)
-
             return listaReservas
         except TypeError:
             return None
