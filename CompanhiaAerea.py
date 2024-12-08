@@ -63,6 +63,53 @@ class CompanhiaAerea:
                     print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
                     print("+==========================================================================+")
                     input()
+                
+                elif(opcao == "3"):
+                    os.system("cls")
+                    Menu.menuClienteAtualizar()
+                    opcao = input("INFORME A OPÇÃO DESEJADA: ")
+                    
+                    if(opcao == "0"):
+                        os.system("cls")
+                        continue
+
+                    elif(opcao == "1" or opcao == "2"):
+                        cpf = input("INFORME O CPF DO CLIENTE: ")
+                        cliente = ClienteDAO().getByCpf(cpf)
+                        if(cliente == None):
+                            print("+==========================================================================+")
+                            print("|                          CLIENTE NÃO ENCONTRADO                          |")
+                            print("+==========================================================================+")
+                            print("+==========================================================================+")
+                            print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
+                            print("+==========================================================================+")
+                            input()
+                            os.system("cls")
+                            continue
+                        elif(opcao == "1"):
+                            email = input("INFORME O NOVO E-MAIL DO CLIENTE: ")
+                            ClienteDAO().update(id=cliente.id, novoEmail=email, novoCelular=None)
+                            
+
+                        elif(opcao == "2"):
+                            celular = input("INFORME O NOVO CELULAR DO CLIENTE: ")
+                            ClienteDAO().update(id=cliente.id, novoEmail=None, novoCelular=celular)
+
+                        print("+================================================================+")
+                        print("| CLIENTE ATUALIZADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR |")
+                        print("+================================================================+")
+                        input()
+
+                    else:
+                        print(
+                            '''
+            ++================================================================++
+            || OPÇÃO INVÁLIDA, TENTE NOVAMENTE, PRESSIONE ENTER PARA CONTINUAR ||
+            ++================================================================++
+            '''
+                        )
+                        input()
+                
                 else:
                     print(
                         '''
@@ -243,4 +290,4 @@ class CompanhiaAerea:
 
 
 
-CompanhiaAerea.main()()
+CompanhiaAerea.main()
