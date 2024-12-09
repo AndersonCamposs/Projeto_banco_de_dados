@@ -31,7 +31,7 @@ class VooController:
         print("============================")
         id = input("INFORME O ID DO VOO: ")
         try:
-            voo = VooDAO().getById(id)
+            voo = self._vooService.buscarPorId(int(id))
         
             table = PrettyTable()
             table.field_names = ["ID", "LOCAL DE PARTIDA", "LOCAL DE DESTINO", "DATA"]
