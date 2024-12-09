@@ -14,3 +14,8 @@ class VooService:
         Validator.dateValidation(data)
 
         self._vooDAO.insert(Voo(None, origem, destino, data))
+
+    def deletarVoo(self, id:int):
+        self._vooDAO.getById(id)
+        self._vooDAO.delete(id)
+        

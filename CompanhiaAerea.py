@@ -2,14 +2,16 @@ import sys
 import os
 from datetime import date
 from prettytable import PrettyTable
+from controller import VooController
 from controller.ClienteController import ClienteController
+from controller.VooController import VooController
+from service.ReservaService import ReservaService
 from utils.Menu import Menu
 from utils.MessageManager import MessageManager
 from model.dao.ClienteDAO import ClienteDAO
 from model.dao.VooDAO import VooDAO
 from model.dao.ReservaDAO import ReservaDAO
 from model.entity.Reserva import Reserva
-from service.VooService import VooService
 from exceptions.InvalidPatternException import InvalidPatternException
 from exceptions.RegisterNotFoundException import RegisterNotFoundException
 
@@ -18,7 +20,8 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 class CompanhiaAerea:
 
     clienteController = ClienteController()
-    vooService = VooService()
+    vooController = VooController()
+    reservaService = ReservaService()
 
     @staticmethod
     def main():
@@ -70,44 +73,13 @@ class CompanhiaAerea:
                     continue                 
                 
                 elif(opcao == "1"):
-                    try:
-                        print("============================")
-                        origem = input("INFORME O LOCAL DE ORIGEM DO VOO: ")
-                        destino = input("INFORME O LOCAL DE DESTINO DO VOO: ")
-                        data = input("INFORME A DATA DO VOO(dd/mm/aaaa): ")
-
-                        CompanhiaAerea.vooService.cadastrarVoo(origem, destino, data)
-                        MessageManager.customMessage("VOO CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
-                    
-                    except InvalidPatternException as e:
-                        MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+                    CompanhiaAerea.vooController.cadastraVoo()
 
                 elif(opcao == "2"):
-                    print("============================")
-                    id = input("INFORME O ID DO VOO: ")
-                    try:
-                        voo = VooDAO().getById(id)
-                    
-                        table = PrettyTable()
-                        table.field_names = ["ID", "LOCAL DE PARTIDA", "LOCAL DE DESTINO", "DATA"]
-                        table.add_row([voo.id, voo.origem, voo.destino, voo.data])
-                        print(table)
-                        MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
-                    
-                    except RegisterNotFoundException as e:
-                        MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+                    CompanhiaAerea.vooController.relatorioVoo()
 
                 elif(opcao == "3"):
-                    print("============================")
-                    id = input("INFORME O ID DO VOO: ")
-                    try:
-                        VooDAO().getById(id)
-                        if(VooDAO().delete(int(id))):
-                            MessageManager.customMessage("VOO DELETADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
-                        else:
-                            MessageManager.customMessage("HOUVE UM ERRO AO DELETAR O VOO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
-                    except RegisterNotFoundException as e:
-                        MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+                    CompanhiaAerea.vooController.deletarVoo()
 
                 else:
                     MessageManager.invalidOption()
@@ -126,17 +98,11 @@ class CompanhiaAerea:
                     cpfCliente = input("INFORME O CPF DO CLIENTE: ")
                     idVoo = input("INFORME O ID DO VOO: ")
                     try:
-                        cliente = ClienteDAO().getByCpf(cpfCliente)
-                    
-                        voo = VooDAO().getById(idVoo)
-
-                        dataAtual = date.today().strftime("%d/%m/%Y")
-                    
+                        
                         try:
                             valor = float(input("INFORME O VALOR DA RESERVA: "))
                             
-                            reserva = Reserva(id = None, cliente = cliente.id, voo = voo.id, data=dataAtual, valor=valor)
-                            ReservaDAO().insert(reserva=reserva)
+                            CompanhiaAerea.reservaService.cadastrarReserva(cpfCliente, idVoo, valor)
                             MessageManager.customMessage("RESERVA CADASTRADA COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
                         
                         except ValueError:
