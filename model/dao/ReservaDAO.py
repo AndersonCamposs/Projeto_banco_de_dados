@@ -3,6 +3,7 @@ from .GenericDAO import GenericDAO
 from .VooDAO import VooDAO
 from .ClienteDAO import ClienteDAO
 from model.entity.Reserva import Reserva
+from exceptions.RegisterNotFoundException import RegisterNotFoundException
 
 class ReservaDAO(GenericDAO):
     def __init__(self) -> None:
@@ -16,7 +17,7 @@ class ReservaDAO(GenericDAO):
         )
         self.conn.commit()
 
-    def getById(self, id: int) -> Union[Reserva, None]:
+    def getById(self, id: int) -> Reserva:
 
         try:
             self.cursor.execute(
@@ -27,7 +28,7 @@ class ReservaDAO(GenericDAO):
             reserva = Reserva(id=data[0], cliente=data[1], voo=data[2], data=data[3], valor=data[4])
             return reserva
         except TypeError:
-            return None
+            raise RegisterNotFoundException("RESERVA NÃO ENCONTRADA")
         
     def listByVooId(self, idVoo: int) -> Union[list[Reserva], None]:
         try:

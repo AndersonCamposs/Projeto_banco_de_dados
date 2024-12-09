@@ -2,6 +2,7 @@ from typing import Union
 from .GenericDAO import GenericDAO
 from model.dao.GenericDAO import GenericDAO
 from model.entity.Cliente import Cliente
+from exceptions.RegisterNotFoundException import RegisterNotFoundException
 
 class ClienteDAO(GenericDAO):
     def __init__(self):
@@ -22,7 +23,7 @@ class ClienteDAO(GenericDAO):
         self.conn.commit()
         
     
-    def getByCpf(self, cpf: str) -> Union[Cliente, None]: 
+    def getByCpf(self, cpf: str) -> Cliente: 
         self.cursor.execute(
             '''SELECT * FROM Cliente WHERE cpf = ?''',
             [cpf]
@@ -32,10 +33,9 @@ class ClienteDAO(GenericDAO):
         try:
             cliente = Cliente(id=data[0], nome=data[1], cpf=data[2], 
             dataNascimento=data[3], email=data[4], celular=data[5])
+            return cliente
         except TypeError:
-            return None
-        
-        return cliente
+            raise RegisterNotFoundException("CLIENTE NÃO ENCONTRADO")
     
     def getById(self, id: int) -> Union[Cliente, None]: 
         self.cursor.execute(

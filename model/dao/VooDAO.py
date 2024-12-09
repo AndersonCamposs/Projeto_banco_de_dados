@@ -2,6 +2,7 @@ from typing import Union
 from sqlite3 import IntegrityError
 from .GenericDAO import GenericDAO
 from model.entity.Voo import Voo
+from exceptions.RegisterNotFoundException import RegisterNotFoundException
 
 class VooDAO(GenericDAO):
     def __init__(self):
@@ -17,7 +18,7 @@ class VooDAO(GenericDAO):
 
         self.conn.commit()
 
-    def getById(self, id: int) -> Union[Voo, None]:
+    def getById(self, id: int) -> Voo:
         
         try:
             self.cursor.execute(
@@ -28,7 +29,7 @@ class VooDAO(GenericDAO):
             voo = Voo(id=data[0], origem=data[1], destino=data[2], data=data[3])
             return voo
         except TypeError:
-            return None
+            raise RegisterNotFoundException("VOO NÃO ENCONTRADO")
         
     def delete(self, id: int) -> bool:
         try: 
