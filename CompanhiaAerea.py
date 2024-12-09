@@ -3,6 +3,7 @@ import os
 from datetime import date
 from prettytable import PrettyTable
 from utils.Menu import Menu
+from utils.MessageManager import MessageManager
 from model.dao.ClienteDAO import ClienteDAO
 from model.dao.VooDAO import VooDAO
 from model.dao.ReservaDAO import ReservaDAO
@@ -41,10 +42,7 @@ class CompanhiaAerea:
     
                     cliente = Cliente(id=None, nome=nome, cpf=cpf, dataNascimento=dataNascimento, email=email, celular=celular)
                     ClienteDAO().insert(cliente)
-                    print("+================================================================+")
-                    print("| CLIENTE CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR |")
-                    print("+================================================================+")
-                    input()
+                    MessageManager.customMessage("CLIENTE CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
                 
                 elif (opcao == "2"):
                     print("============================")
@@ -56,9 +54,7 @@ class CompanhiaAerea:
                         table.add_row([cliente.id, cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular])
                         print(table)
                     else:
-                        print("+==========================================================================+")
-                        print("|                          CLIENTE NÃO ENCONTRADO                          |")
-                        print("+==========================================================================+")
+                        MessageManager.customMessage("ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
                     print("+==========================================================================+")
                     print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
                     print("+==========================================================================+")
@@ -77,13 +73,7 @@ class CompanhiaAerea:
                         cpf = input("INFORME O CPF DO CLIENTE: ")
                         cliente = ClienteDAO().getByCpf(cpf)
                         if(cliente == None):
-                            print("+==========================================================================+")
-                            print("|                          CLIENTE NÃO ENCONTRADO                          |")
-                            print("+==========================================================================+")
-                            print("+==========================================================================+")
-                            print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                            print("+==========================================================================+")
-                            input()
+                            MessageManager.customMessage("CLIENTE NÃO ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
                             os.system("cls")
                             continue
                         elif(opcao == "1"):
@@ -95,30 +85,13 @@ class CompanhiaAerea:
                             celular = input("INFORME O NOVO CELULAR DO CLIENTE: ")
                             ClienteDAO().update(id=cliente.id, novoEmail=None, novoCelular=celular)
 
-                        print("+================================================================+")
-                        print("| CLIENTE ATUALIZADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR |")
-                        print("+================================================================+")
-                        input()
+                        MessageManager.customMessage("CLIENTE ATUALIZADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
 
                     else:
-                        print(
-                            '''
-            ++================================================================++
-            || OPÇÃO INVÁLIDA, TENTE NOVAMENTE, PRESSIONE ENTER PARA CONTINUAR ||
-            ++================================================================++
-            '''
-                        )
-                        input()
+                        MessageManager.invalidOption()
                 
                 else:
-                    print(
-                        '''
-        ++================================================================++
-        || OPÇÃO INVÁLIDA, TENTE NOVAMENTE, PRESSIONE ENTER PARA CONTINUAR ||
-        ++================================================================++
-        '''
-                    )
-                    input()
+                    MessageManager.invalidOption()
                 
             elif(opcao == "2"):
                 os.system("cls")
@@ -136,10 +109,7 @@ class CompanhiaAerea:
 
                     voo = Voo(id=None, origem=origem, destino=destino, data=data)
                     VooDAO().insert(voo)
-                    print("+================================================================+")
-                    print("|   VOO CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR   |")
-                    print("+================================================================+")
-                    input()
+                    MessageManager.customMessage("VOO CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
 
                 elif(opcao == "2"):
                     print("============================")
@@ -156,22 +126,13 @@ class CompanhiaAerea:
                         input()
                     
                     else:
-                        print("+==========================================================================+")
-                        print("|                            VOO NÃO ENCONTRADO                            |")
-                        print("+==========================================================================+")
-                        print("+==========================================================================+")
-                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                        print("+==========================================================================+")
-                        input()
+                        MessageManager.customMessage("VOO NÃO ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
                 elif(opcao == "3"):
                     print("============================")
                     id = input("INFORME O ID DO VOO: ")
                     if(VooDAO().delete(int(id))):
-                        print("+================================================================+")
-                        print("|    VOO DELETADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR    |")
-                        print("+================================================================+")
-                        input()
+                        MessageManager.customMessage("VOO DELETADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
                     else:
                         print("+================================================================+")
                         print("| HOUVE UM ERRO AO DELETAR O VOO, PRESSIONE ENTER PARA CONTINUAR |")
@@ -180,14 +141,7 @@ class CompanhiaAerea:
 
 
                 else:
-                    print(
-                        '''
-        ++================================================================++
-        || OPÇÃO INVÁLIDA, TENTE NOVAMENTE, PRESSIONE ENTER PARA CONTINUAR ||
-        ++================================================================++
-        '''
-                    )
-                    input()
+                    MessageManager.invalidOption()
 
                 
             elif(opcao == "3"):
@@ -203,26 +157,14 @@ class CompanhiaAerea:
                     cpfCliente = input("INFORME O CPF DO CLIENTE: ")
                     cliente = ClienteDAO().getByCpf(cpfCliente)
                     if (cliente == None):
-                        print("+==========================================================================+")
-                        print("|                          CLIENTE NÃO ENCONTRADO                          |")
-                        print("+==========================================================================+")
-                        print("+==========================================================================+")
-                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                        print("+==========================================================================+")
-                        input()
+                        MessageManager.customMessage("CLIENTE NÃO ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
                         os.system("cls")
                         continue
                     
                     idVoo = input("INFORME O ID DO VOO: ")
                     voo = VooDAO().getById(idVoo)
                     if(voo == None):
-                        print("+==========================================================================+")
-                        print("|                            VOO NÃO ENCONTRADO                            |")
-                        print("+==========================================================================+")
-                        print("+==========================================================================+")
-                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                        print("+==========================================================================+")
-                        input()
+                        MessageManager.customMessage("VOO NÃO ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
                         os.system("cls")
                         continue
 
@@ -231,10 +173,7 @@ class CompanhiaAerea:
                         valor = float(input("INFORME O VALOR DA RESERVA: "))
                         reserva = Reserva(id = None, cliente = cliente.id, voo = voo.id, data=dataAtual, valor=valor)
                         ReservaDAO().insert(reserva=reserva)
-                        print("+================================================================+")
-                        print("| RESERVA CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR |")
-                        print("+================================================================+")
-                        input()
+                        MessageManager.customMessage("RESERVA CADASTRADA COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
                     except ValueError:
                         print("+================================================================+")
                         print("|    VALOR DA RESERVA INVÁLIDO, PRESSIONE ENTER PARA CONTINUAR   |")
@@ -256,26 +195,14 @@ class CompanhiaAerea:
                         print("+==========================================================================+")
                         input()
                     else:
-                        print("+==========================================================================+")
-                        print("|                            VOO NÃO ENCONTRADO                            |")
-                        print("+==========================================================================+")
-                        print("+==========================================================================+")
-                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                        print("+==========================================================================+")
-                        input()
+                        MessageManager.customMessage("RESERVA NÃO ENCONTRADA, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
                 elif(opcao == "3"):
                     print("============================")
                     idVoo = input("INFORME O ID DO VOO: ")
                     voo = VooDAO().getById(int(idVoo))
                     if(voo == None):
-                        print("+==========================================================================+")
-                        print("|                            VOO NÃO ENCONTRADO                            |")
-                        print("+==========================================================================+")
-                        print("+==========================================================================+")
-                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                        print("+==========================================================================+")
-                        input()
+                        MessageManager.customMessage("VOO NÃO ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
                         os.system("cls")
                         continue
                     
@@ -291,29 +218,12 @@ class CompanhiaAerea:
                     print("+==========================================================================+")
                     input()
                 else:
-                    print(
-                        '''
-        ++================================================================++
-        || OPÇÃO INVÁLIDA, TENTE NOVAMENTE, PRESSIONE ENTER PARA CONTINUAR ||
-        ++================================================================++
-        '''
-                    )
-                    input()
+                    MessageManager.invalidOption()
 
             else:
-                print(
-                    '''
-    ++================================================================++
-    || OPÇÃO INVÁLIDA, TENTE NOVAMENTE, PRESSIONE ENTER PARA CONTINUAR ||
-    ++================================================================++
-    '''
-                )
-                input()
+                MessageManager.invalidOption()
             
             os.system("cls")
             
     
-
-
-
 CompanhiaAerea.main()
