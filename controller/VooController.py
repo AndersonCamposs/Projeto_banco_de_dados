@@ -47,6 +47,7 @@ class VooController:
         id = input("INFORME O ID DO VOO: ")
         try:
             self._vooService.deletarVoo(id)
+            MessageManager.customMessage("VOO DELETADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
         
         except RegisterNotFoundException as e:
             MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
