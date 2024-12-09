@@ -23,10 +23,10 @@ class ClienteController:
             celular = input("INFORME O CELULAR DO CLIENTE: ")
 
             self.clienteService.cadastrarCliente(nome, cpf, dataNascimento, email, celular)
-            MessageManager.customMessage("CLIENTE CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+            MessageManager.customMessage("CLIENTE CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.SUCCESS)
 
         except InvalidPatternException as e:
-            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
 
     def relatorioCliente(self):
         print("============================")
@@ -38,9 +38,9 @@ class ClienteController:
             table.add_row([cliente.id, cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular])
             print(table)
         else:
-            MessageManager.customMessage("CLIENTE ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+            MessageManager.customMessage("CLIENTE ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
         
-        MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
+        MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
 
     def atualizarCliente(self, opcao: str):
         cpf = input("INFORME O CPF DO CLIENTE: ")
@@ -53,7 +53,7 @@ class ClienteController:
                 celular = input("INFORME O NOVO CELULAR DO CLIENTE: ")
                 self.clienteService.atualizarCliente(cliente.id, None, celular)
             
-            MessageManager.customMessage("CLIENTE ATUALIZADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+            MessageManager.customMessage("CLIENTE ATUALIZADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.SUCCESS)
         
         except RegisterNotFoundException as e:
-            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)

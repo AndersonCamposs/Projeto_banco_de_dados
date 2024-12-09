@@ -19,19 +19,17 @@ class ReservaController:
         print("============================")
         cpfCliente = input("INFORME O CPF DO CLIENTE: ")
         idVoo = input("INFORME O ID DO VOO: ")
-        try:
-            
-            try:
-                valor = float(input("INFORME O VALOR DA RESERVA: "))
-                
-                self.reservaService.cadastrarReserva(cpfCliente, idVoo, valor)
-                MessageManager.customMessage("RESERVA CADASTRADA COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
-            
-            except ValueError:
-                MessageManager.customMessage("VALOR DA RESERVA INVÁLIDO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+        try:  
+            valor = float(input("INFORME O VALOR DA RESERVA: "))
+            self.reservaService.cadastrarReserva(cpfCliente, idVoo, valor)
+            MessageManager.customMessage("RESERVA CADASTRADA COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.SUCCESS)
             
         except RegisterNotFoundException as e:
-            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
+        
+        except ValueError:
+            MessageManager.customMessage("VALOR DA RESERVA INVÁLIDO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)    
+
 
     def relatorioReserva(self):
         id = input("INFORME O ID DA RESERVA: ")
@@ -43,9 +41,9 @@ class ReservaController:
             table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
             table.add_row([reserva.id, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor])
             print(table)
-            MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
+            MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
         except RegisterNotFoundException as e:
-            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
 
     def listarReservasVoo(self):
         print("============================")
@@ -60,7 +58,7 @@ class ReservaController:
                 table.add_row([reserva.id, reserva.cliente.nome, reserva.cliente.cpf, reserva.cliente.email, reserva.voo.origem, reserva.voo.destino, reserva.voo.data, reserva.data, reserva.valor], divider=True)
 
             print(table)
-            MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
+            MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
         except RegisterNotFoundException as e:
-            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
 
