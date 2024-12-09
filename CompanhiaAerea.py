@@ -11,6 +11,7 @@ from model.entity.Cliente import Cliente
 from model.entity.Voo import Voo
 from model.entity.Reserva import Reserva
 from services.ClienteService import ClienteService
+from services.VooService import VooService
 from exceptions.InvalidPatternException import InvalidPatternException
 from exceptions.RegisterNotFoundException import RegisterNotFoundException
 
@@ -19,6 +20,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 class CompanhiaAerea:
 
     clienteService = ClienteService()
+    vooService = VooService()
 
     @staticmethod
     def main():
@@ -108,37 +110,44 @@ class CompanhiaAerea:
                     continue                 
                 
                 elif(opcao == "1"):
-                    print("============================")
-                    origem = input("INFORME O LOCAL DE ORIGEM DO VOO: ")
-                    destino = input("INFORME O LOCAL DE DESTINO DO VOO: ")
-                    data = input("INFORME A DATA DO VOO(dd/mm/aaaa): ")
+                    try:
+                        print("============================")
+                        origem = input("INFORME O LOCAL DE ORIGEM DO VOO: ")
+                        destino = input("INFORME O LOCAL DE DESTINO DO VOO: ")
+                        data = input("INFORME A DATA DO VOO(dd/mm/aaaa): ")
 
-                    voo = Voo(id=None, origem=origem, destino=destino, data=data)
-                    VooDAO().insert(voo)
-                    MessageManager.customMessage("VOO CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+                        CompanhiaAerea.vooService.cadastrarVoo(origem, destino, data)
+                        MessageManager.customMessage("VOO CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+                    
+                    except InvalidPatternException as e:
+                        MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
                 elif(opcao == "2"):
                     print("============================")
                     id = input("INFORME O ID DO VOO: ")
-                    voo = VooDAO().getById(id)
-                    if(voo != None):
+                    try:
+                        voo = VooDAO().getById(id)
+                    
                         table = PrettyTable()
                         table.field_names = ["ID", "LOCAL DE PARTIDA", "LOCAL DE DESTINO", "DATA"]
                         table.add_row([voo.id, voo.origem, voo.destino, voo.data])
                         print(table)
                         MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
                     
-                    else:
-                        MessageManager.customMessage("VOO NÃO ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+                    except RegisterNotFoundException as e:
+                        MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
                 elif(opcao == "3"):
                     print("============================")
                     id = input("INFORME O ID DO VOO: ")
-                    if(VooDAO().delete(int(id))):
-                        MessageManager.customMessage("VOO DELETADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
-                    else:
-                        MessageManager.customMessage("HOUVE UM ERRO AO DELETAR O VOO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
-
+                    try:
+                        VooDAO().getById(id)
+                        if(VooDAO().delete(int(id))):
+                            MessageManager.customMessage("VOO DELETADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+                        else:
+                            MessageManager.customMessage("HOUVE UM ERRO AO DELETAR O VOO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+                    except RegisterNotFoundException as e:
+                        MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
                 else:
                     MessageManager.invalidOption()
