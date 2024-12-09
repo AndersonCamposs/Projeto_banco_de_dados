@@ -10,10 +10,14 @@ from model.dao.ReservaDAO import ReservaDAO
 from model.entity.Cliente import Cliente
 from model.entity.Voo import Voo
 from model.entity.Reserva import Reserva
+from services.ClienteService import ClienteService
+from exceptions.InvalidPatternException import InvalidPatternException
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 class CompanhiaAerea:
+
+    clienteService = ClienteService()
 
     @staticmethod
     def main():
@@ -34,15 +38,18 @@ class CompanhiaAerea:
                 
                 elif (opcao == "1"):
                     print("============================")
-                    nome = input("INFORME O NOME DO CLIENTE: ")
-                    cpf = input("INFORME O CPF DO CLIENTE: ")
-                    dataNascimento = input("INFORME A DATA DE NASCIMENTO(dd/mm/aaaa): ")
-                    email = input("INFORME O E-MAIL DO CLIENTE: ")
-                    celular = input("INFORME O CELULAR DO CLIENTE: ")
-    
-                    cliente = Cliente(id=None, nome=nome, cpf=cpf, dataNascimento=dataNascimento, email=email, celular=celular)
-                    ClienteDAO().insert(cliente)
-                    MessageManager.customMessage("CLIENTE CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+                    try:
+                        nome = input("INFORME O NOME DO CLIENTE: ")
+                        cpf = input("INFORME O CPF DO CLIENTE: ")
+                        dataNascimento = input("INFORME A DATA DE NASCIMENTO(dd/mm/aaaa): ")
+                        email = input("INFORME O E-MAIL DO CLIENTE: ")
+                        celular = input("INFORME O CELULAR DO CLIENTE: ")
+
+                        CompanhiaAerea.clienteService.cadastrarCliente(nome, cpf, dataNascimento, email, celular)
+                        MessageManager.customMessage("CLIENTE CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+
+                    except InvalidPatternException as e:
+                        MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
                 
                 elif (opcao == "2"):
                     print("============================")
@@ -54,11 +61,9 @@ class CompanhiaAerea:
                         table.add_row([cliente.id, cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular])
                         print(table)
                     else:
-                        MessageManager.customMessage("ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
-                    print("+==========================================================================+")
-                    print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                    print("+==========================================================================+")
-                    input()
+                        MessageManager.customMessage("CLIENTE ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
+                    
+                    MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
                 
                 elif(opcao == "3"):
                     os.system("cls")
@@ -120,10 +125,7 @@ class CompanhiaAerea:
                         table.field_names = ["ID", "LOCAL DE PARTIDA", "LOCAL DE DESTINO", "DATA"]
                         table.add_row([voo.id, voo.origem, voo.destino, voo.data])
                         print(table)
-                        print("+==========================================================================+")
-                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                        print("+==========================================================================+")
-                        input()
+                        MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
                     
                     else:
                         MessageManager.customMessage("VOO NÃO ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
@@ -134,10 +136,7 @@ class CompanhiaAerea:
                     if(VooDAO().delete(int(id))):
                         MessageManager.customMessage("VOO DELETADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
                     else:
-                        print("+================================================================+")
-                        print("| HOUVE UM ERRO AO DELETAR O VOO, PRESSIONE ENTER PARA CONTINUAR |")
-                        print("+================================================================+")
-                        input()
+                        MessageManager.customMessage("HOUVE UM ERRO AO DELETAR O VOO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
 
                 else:
@@ -175,10 +174,7 @@ class CompanhiaAerea:
                         ReservaDAO().insert(reserva=reserva)
                         MessageManager.customMessage("RESERVA CADASTRADA COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
                     except ValueError:
-                        print("+================================================================+")
-                        print("|    VALOR DA RESERVA INVÁLIDO, PRESSIONE ENTER PARA CONTINUAR   |")
-                        print("+================================================================+")
-                        input()
+                        MessageManager.customMessage("VALOR DA RESERVA INVÁLIDO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
                 elif(opcao == "2"):
                     id = input("INFORME O ID DA RESERVA: ")
@@ -190,10 +186,7 @@ class CompanhiaAerea:
                         table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
                         table.add_row([reserva.id, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor])
                         print(table)
-                        print("+==========================================================================+")
-                        print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                        print("+==========================================================================+")
-                        input()
+                        MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
                     else:
                         MessageManager.customMessage("RESERVA NÃO ENCONTRADA, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
@@ -213,10 +206,7 @@ class CompanhiaAerea:
                         table.add_row([reserva.id, reserva.cliente.nome, reserva.cliente.cpf, reserva.cliente.email, reserva.voo.origem, reserva.voo.destino, reserva.voo.data, reserva.data, reserva.valor], divider=True)
 
                     print(table)
-                    print("+==========================================================================+")
-                    print("|                       PRESSIONE ENTER PARA CONTINUAR                     |")
-                    print("+==========================================================================+")
-                    input()
+                    MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.info)
                 else:
                     MessageManager.invalidOption()
 

@@ -1,6 +1,7 @@
 class MessageManager:
     success = "92m"
     danger = "91m"
+    info = "96m"
 
     @staticmethod
     def customMessage(message: str, styleMessage: str):
