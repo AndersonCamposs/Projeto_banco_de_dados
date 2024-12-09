@@ -12,6 +12,7 @@ from model.entity.Voo import Voo
 from model.entity.Reserva import Reserva
 from services.ClienteService import ClienteService
 from exceptions.InvalidPatternException import InvalidPatternException
+from exceptions.RegisterNotFoundException import RegisterNotFoundException
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
@@ -76,21 +77,21 @@ class CompanhiaAerea:
 
                     elif(opcao == "1" or opcao == "2"):
                         cpf = input("INFORME O CPF DO CLIENTE: ")
-                        cliente = ClienteDAO().getByCpf(cpf)
-                        if(cliente == None):
-                            MessageManager.customMessage("CLIENTE NÃO ENCONTRADO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
-                            os.system("cls")
-                            continue
-                        elif(opcao == "1"):
-                            email = input("INFORME O NOVO E-MAIL DO CLIENTE: ")
-                            ClienteDAO().update(id=cliente.id, novoEmail=email, novoCelular=None)
+                        try:
+                            cliente = ClienteDAO().getByCpf(cpf)
+                            if(opcao == "1"):
+                                email = input("INFORME O NOVO E-MAIL DO CLIENTE: ")
+                                CompanhiaAerea.clienteService.atualizarCliente(cliente.id, email, None)
+                            elif(opcao == "2"):
+                                celular = input("INFORME O NOVO CELULAR DO CLIENTE: ")
+                                CompanhiaAerea.clienteService.atualizarCliente(cliente.id, None, celular)
                             
+                            MessageManager.customMessage("CLIENTE ATUALIZADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+                        
+                        except RegisterNotFoundException as e:
+                            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.danger)
 
-                        elif(opcao == "2"):
-                            celular = input("INFORME O NOVO CELULAR DO CLIENTE: ")
-                            ClienteDAO().update(id=cliente.id, novoEmail=None, novoCelular=celular)
-
-                        MessageManager.customMessage("CLIENTE ATUALIZADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.success)
+                        
 
                     else:
                         MessageManager.invalidOption()
