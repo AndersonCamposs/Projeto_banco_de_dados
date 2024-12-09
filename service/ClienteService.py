@@ -22,13 +22,13 @@ class ClienteService():
     def atualizarCliente(self, id: int, email: Union[str, None], celular: Union[str, None]):
         if(email):
             Validator.emailValidation(email)
-        self.clienteDAO.update(id, email, celular)
+        self._clienteDAO.update(id, email, celular)
 
     def buscarPorCpf(self, cpf: str):
         Validator.cpfValidation(cpf)
-        self.clienteDAO.getByCpf(cpf)
+        return self._clienteDAO.getByCpf(cpf)
 
     def buscarPorId(self, id: int):
-        self.clienteDAO.getById(id)
+        return self._clienteDAO.getById(id)
 
         

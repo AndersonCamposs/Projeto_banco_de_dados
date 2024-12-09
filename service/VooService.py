@@ -18,4 +18,7 @@ class VooService:
     def deletarVoo(self, id:int):
         self._vooDAO.getById(id)
         self._vooDAO.delete(id)
+
+    def buscarPorId(self, id: int):
+        return self._vooDAO.getById(id)
         

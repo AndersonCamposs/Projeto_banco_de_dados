@@ -1,4 +1,5 @@
 from datetime import date
+from exceptions.RegisterNotFoundException import RegisterNotFoundException
 from model.dao.ClienteDAO import ClienteDAO
 from model.dao.ReservaDAO import ReservaDAO
 from model.dao.VooDAO import VooDAO
@@ -18,3 +19,13 @@ class ReservaService:
         voo = VooDAO().getById(idVoo)
 
         self._reservaDAO.insert(Reserva(None, cliente.id, voo.id, date.today().strftime("%d/%m/%Y")))
+
+    def listarPorVoo(self, idVoo: int):
+        lista = self._reservaDAO.listByVooId(idVoo)
+        if (lista): 
+            return lista
+        else:
+            raise RegisterNotFoundException("NÃO EXISTEM RESERVAS PARA ESSE VOO")
+
+    def buscarPorId(self, id: int):
+        return self._reservaDAO.getById(id)
