@@ -16,7 +16,7 @@ class ClienteController:
         print("============================")
         try:
             nome = input("INFORME O NOME DO CLIENTE: ")
-            cpf = input("INFORME O CPF DO CLIENTE: ")
+            cpf = input("INFORME O CPF DO CLIENTE(xxx.xxx.xxx-xx): ")
             dataNascimento = input("INFORME A DATA DE NASCIMENTO(dd/mm/aaaa): ")
             email = input("INFORME O E-MAIL DO CLIENTE: ")
             celular = input("INFORME O CELULAR DO CLIENTE: ")

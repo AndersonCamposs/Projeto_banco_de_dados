@@ -5,6 +5,10 @@ class GenericDAO:
     def __init__(self):
         self._conn = sqlite3.connect("./database/banco.db")
         self._cursor = self._conn.cursor()
+        # HABILITA FKs PARA A SESSÃO COM O COMANDO PRAGMA
+        self._cursor.execute(
+            '''PRAGMA foreign_keys = ON'''
+        )
 
     @property
     def conn(self) -> Connection:
