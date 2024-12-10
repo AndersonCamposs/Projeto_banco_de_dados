@@ -8,24 +8,23 @@ from model.entity.Reserva import Reserva
 
 class ReservaService:
     def __init__(self):
-        self._reservaDAO = ReservaDAO()
-
-    @property
-    def reservaDAO(self):
-        return self._reservaDAO
+        pass
     
     def cadastrarReserva(self, cpfCliente, idVoo, valor):
-        cliente = ClienteDAO().getByCpf(cpfCliente)          
-        voo = VooDAO().getById(idVoo)
+        with ClienteDAO() as clienteDAO, VooDAO() as vooDAO, ReservaDAO() as reservaDAO:
+            cliente = clienteDAO.getByCpf(cpfCliente)          
+            voo = vooDAO.getById(idVoo)
 
-        self._reservaDAO.insert(Reserva(None, cliente.id, voo.id, date.today().strftime("%d/%m/%Y"), valor))
+            reservaDAO.insert(Reserva(None, cliente.id, voo.id, date.today().strftime("%d/%m/%Y"), valor))
 
-    def listarPorVoo(self, idVoo: int):
-        lista = self._reservaDAO.listByVooId(idVoo)
-        if (lista): 
-            return lista
-        else:
-            raise RegisterNotFoundException("NÃO EXISTEM RESERVAS PARA ESSE VOO")
+    def listarPorVoo(self, idVoo: int) -> list[Reserva]:
+        with ReservaDAO() as reservaDAO:
+            lista = reservaDAO.listByVooId(idVoo)
+            if (lista): 
+                return lista
+            else:
+                raise RegisterNotFoundException("NÃO EXISTEM RESERVAS PARA ESSE VOO")
 
     def buscarPorId(self, id: int):
-        return self._reservaDAO.getById(id)
+        with ReservaDAO() as reservaDAO:
+            return reservaDAO.getById(id)

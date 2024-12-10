@@ -33,8 +33,6 @@ class ReservaController:
         cpfCliente = input("INFORME O CPF DO CLIENTE: ")
         idVoo = input("INFORME O ID DO VOO: ")
         try:  
-            cliente = self._clienteService.buscarPorCpf(cpfCliente)
-            voo = self._vooService.buscarPorId(idVoo)
             valor = float(input("INFORME O VALOR DA RESERVA: "))
             self._reservaService.cadastrarReserva(cpfCliente, idVoo, valor)
             MessageManager.customMessage("RESERVA CADASTRADA COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.SUCCESS)
@@ -69,7 +67,7 @@ class ReservaController:
         try:
             self._vooService.buscarPorId(int(idVoo))
         
-            listaReservas = ReservaDAO().listByVooId(idVoo)
+            listaReservas = self._reservaService.listarPorVoo(idVoo)
             table = PrettyTable()
             table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
             for reserva in listaReservas:

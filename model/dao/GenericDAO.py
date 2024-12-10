@@ -14,3 +14,11 @@ class GenericDAO:
     def cursor(self) -> Cursor:
         return  self._cursor
     
+    def __enter__(self): 
+        return self
+    
+    def __exit__(self, exec_type, exec_val, exec_tb):
+        if (self._cursor): self._cursor.close()
+        if (self._conn): self._conn.close()
+    
+    
