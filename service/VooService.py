@@ -20,3 +20,7 @@ class VooService:
         with VooDAO() as vooDAO:
             return vooDAO.getById(id)
         
+    def listarVoos(self):
+        with VooDAO() as vooDAO:
+            return vooDAO.listAll()
+        

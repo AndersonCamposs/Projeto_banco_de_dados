@@ -51,3 +51,20 @@ class VooController:
         
         except RegisterNotFoundException as e:
             MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
+
+    def listarVoos(self):
+        try:
+            listaVoos = self._vooService.listarVoos()
+            table = PrettyTable()
+            table.field_names = ["ID", "LOCAL DE ORIGEM", "LOCAL DE DESTINO", "DATA DO VOO"]
+            for voo in listaVoos:
+                table.add_row([voo.id, voo.origem, voo.destino, voo.data])
+            print(table)
+            MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
+
+        except RegisterNotFoundException as e:
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
+
+        except TypeError as e:
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
+                

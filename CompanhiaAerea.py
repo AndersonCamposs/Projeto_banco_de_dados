@@ -76,6 +76,9 @@ class CompanhiaAerea:
                 elif(opcao == "3"):
                     CompanhiaAerea.vooController.deletarVoo()
 
+                elif(opcao == "4"):
+                    CompanhiaAerea.vooController.listarVoos()
+
                 else:
                     MessageManager.invalidOption()
 
