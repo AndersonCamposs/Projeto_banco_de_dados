@@ -4,18 +4,19 @@ from utils.Validator import Validator
 
 class VooService:
     def __init__(self):
-        self._vooDAO = VooDAO()
+        pass
 
-    @property
-    def vooDAO(self) -> VooDAO:
-        return self._vooDAO
-    
     def cadastrarVoo(self, origem: str, destino: str, data: str) -> None:
         Validator.dateValidation(data)
-
-        self._vooDAO.insert(Voo(None, origem, destino, data))
+        with VooDAO() as vooDAO:
+            vooDAO.insert(Voo(None, origem, destino, data))
 
     def deletarVoo(self, id:int):
-        self._vooDAO.getById(id)
-        self._vooDAO.delete(id)
+        with VooDAO() as vooDAO:
+            vooDAO.getById(id)
+            vooDAO.delete(id)
+
+    def buscarPorId(self, id: int):
+        with VooDAO() as vooDAO:
+            return vooDAO.getById(id)
         

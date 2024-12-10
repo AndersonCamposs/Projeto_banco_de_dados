@@ -25,7 +25,7 @@ class ReservaDAO(GenericDAO):
                 [id]
             )
             data = self.cursor.fetchone()
-            reserva = Reserva(id=data[0], cliente=data[1], voo=data[2], data=data[3], valor=data[4])
+            reserva = Reserva(id=data[0], cliente=ClienteDAO().getById(int(data[1])), voo=VooDAO().getById(int(data[2])), data=data[3], valor=data[4])
             return reserva
         except TypeError:
             raise RegisterNotFoundException("RESERVA NÃO ENCONTRADA")
