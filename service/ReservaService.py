@@ -18,7 +18,7 @@ class ReservaService:
         cliente = ClienteDAO().getByCpf(cpfCliente)          
         voo = VooDAO().getById(idVoo)
 
-        self._reservaDAO.insert(Reserva(None, cliente.id, voo.id, date.today().strftime("%d/%m/%Y")))
+        self._reservaDAO.insert(Reserva(None, cliente.id, voo.id, date.today().strftime("%d/%m/%Y"), valor))
 
     def listarPorVoo(self, idVoo: int):
         lista = self._reservaDAO.listByVooId(idVoo)

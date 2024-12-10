@@ -25,7 +25,7 @@ class ClienteService():
         self._clienteDAO.update(id, email, celular)
 
     def buscarPorCpf(self, cpf: str):
-        Validator.cpfValidation(cpf)
+        
         return self._clienteDAO.getByCpf(cpf)
 
     def buscarPorId(self, id: int):

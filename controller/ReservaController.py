@@ -67,7 +67,7 @@ class ReservaController:
         print("============================")
         idVoo = input("INFORME O ID DO VOO: ")
         try:
-            self._vooService.buscarPorId(id)
+            self._vooService.buscarPorId(int(idVoo))
         
             listaReservas = ReservaDAO().listByVooId(idVoo)
             table = PrettyTable()
