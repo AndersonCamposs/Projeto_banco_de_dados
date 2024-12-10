@@ -58,7 +58,7 @@ class VooController:
             table = PrettyTable()
             table.field_names = ["ID", "LOCAL DE ORIGEM", "LOCAL DE DESTINO", "DATA DO VOO"]
             for voo in listaVoos:
-                table.add_row([voo.id, voo.origem, voo.destino, voo.data])
+                table.add_row([voo.id, voo.origem, voo.destino, voo.data], divider = True)
             print(table)
             MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
 

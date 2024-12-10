@@ -71,7 +71,7 @@ class ClienteController:
             table = PrettyTable()
             table.field_names = ["ID", "NOME", "CPF", "DATA DE NASCIMENTO", "E-MAIL", "CELULAR"]
             for cliente in listaClientes:
-                table.add_row([cliente.id, cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular])
+                table.add_row([cliente.id, cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular], divider=True)
             print(table)
             MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
 

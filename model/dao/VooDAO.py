@@ -47,7 +47,6 @@ class VooDAO(GenericDAO):
             listaVoos = []
             
             for registro in data:
-                print(registro)
                 listaVoos.append(Voo(registro[0], registro[1], registro[2], registro[3]))
 
             if(len(listaVoos) != 0):
