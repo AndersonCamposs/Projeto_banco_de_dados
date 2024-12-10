@@ -39,3 +39,22 @@ class VooDAO(GenericDAO):
         except IntegrityError:
             return False
         
+    def listAll(self) -> list[Voo]:
+        try:
+            self.cursor.execute("SELECT * FROM Voo")
+            data = self.cursor.fetchall()
+
+            listaVoos = []
+            
+            for registro in data:
+                print(registro)
+                listaVoos.append(Voo(registro[0], registro[1], registro[2], registro[3]))
+
+            if(len(listaVoos) != 0):
+                return listaVoos
+            else:
+                raise RegisterNotFoundException("NÃO HÁ REGISTROS")
+        except TypeError:
+            raise TypeError("ERRO AO CARREGAR A LISTA")
+
+        

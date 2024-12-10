@@ -51,5 +51,23 @@ class ClienteDAO(GenericDAO):
             return None
         
         return cliente
+    
+    def listaAll(self) -> list[Cliente]:
+        try:
+            self.cursor.execute("SELECT * FROM Cliente")
+            data = self.cursor.fetchall()
+
+            listaClientes = []
+            
+            for registro in data:
+                listaClientes.append(Cliente(registro[0], registro[1], registro[2], registro[3], registro[4], registro[5]))
+
+            if(len(listaClientes) != 0):
+                return listaClientes
+            else:
+                raise RegisterNotFoundException("NÃO HÁ REGISTROS")
+        except TypeError:
+            raise TypeError("ERRO AO CARREGAR A LISTA")
+            
 
     
