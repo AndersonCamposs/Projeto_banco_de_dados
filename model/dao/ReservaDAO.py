@@ -43,6 +43,10 @@ class ReservaDAO(GenericDAO):
             for registro in data:
                 reserva = Reserva(id=registro[0], cliente=ClienteDAO().getById(int(registro[1])), voo=VooDAO().getById(int(registro[2])), data=registro[3], valor=registro[4])
                 listaReservas.append(reserva)
-            return listaReservas
+            
+            if(len(listaReservas) != 0):
+                return listaReservas
+            else:
+                raise RegisterNotFoundException("NÃO EXISTEM RESERVAS PARA ESTE VOO")
         except TypeError:
-            return None
+            raise TypeError("ERRO AO CARREGAR A LISTA")

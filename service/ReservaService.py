@@ -19,11 +19,7 @@ class ReservaService:
 
     def listarPorVoo(self, idVoo: int) -> list[Reserva]:
         with ReservaDAO() as reservaDAO:
-            lista = reservaDAO.listByVooId(idVoo)
-            if (lista): 
-                return lista
-            else:
-                raise RegisterNotFoundException("NÃO EXISTEM RESERVAS PARA ESSE VOO")
+            return reservaDAO.listByVooId(idVoo)
 
     def buscarPorId(self, id: int):
         with ReservaDAO() as reservaDAO:
