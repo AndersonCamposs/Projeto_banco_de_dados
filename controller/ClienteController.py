@@ -64,4 +64,21 @@ class ClienteController:
 
         except InvalidPatternException as e:
             MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
+
+    def listarClientes(self):
+        try:
+            listaClientes = self._clienteService.listarClientes()
+            table = PrettyTable()
+            table.field_names = ["ID", "NOME", "CPF", "DATA DE NASCIMENTO", "E-MAIL", "CELULAR"]
+            for cliente in listaClientes:
+                table.add_row([cliente.id, cliente.nome, cliente.cpf, cliente.dataNascimento, cliente.email, cliente.celular])
+            print(table)
+            MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
+
+        except RegisterNotFoundException as e:
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
+
+        except TypeError as e:
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
+                
         

@@ -18,6 +18,7 @@ class Menu:
         table.add_row(["1", "NOVO CLIENTE"], divider=True)
         table.add_row(["2", "RELATÓRIO DE CLIENTE"], divider=True)
         table.add_row(["3", "ATUALIZAR DADOS DO CLIENTE"], divider=True)
+        table.add_row(["4", "LISTAR TODOS OS CLIENTES"], divider=True)
         table.add_row(["0", "VOLTAR"], divider=True)
         print(table)
 
@@ -37,6 +38,7 @@ class Menu:
         table.add_row(["1", "NOVO VOO"], divider=True)
         table.add_row(["2", "RELATÓRIO DE VOO"], divider=True)
         table.add_row(["3", "DELETAR VOO"], divider=True)
+        table.add_row(["4", "LISTAR TODOS OS VOOS"], divider=True)
         table.add_row(["0", "VOLTAR"], divider=True)
         print(table)
 

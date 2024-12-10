@@ -53,6 +53,9 @@ class CompanhiaAerea:
                     else:
                         MessageManager.invalidOption()
                 
+                elif(opcao == "4"):
+                    CompanhiaAerea.clienteController.listarClientes()
+                
                 else:
                     MessageManager.invalidOption()
                 

@@ -30,5 +30,9 @@ class ClienteService():
     def buscarPorId(self, id: int):
         with ClienteDAO() as clienteDAO:
             return clienteDAO.clienteDAO.getById(id)
+        
+    def listarClientes(self):
+        with ClienteDAO() as clienteDAO:
+            return clienteDAO.listaAll()
 
         
