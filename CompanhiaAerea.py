@@ -6,12 +6,13 @@ from controller.VooController import VooController
 from controller.ReservaController import ReservaController
 from utils.Menu import Menu
 from utils.MessageManager import MessageManager
+from view.ClienteView import ClienteView
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 class CompanhiaAerea:
 
-    clienteController = ClienteController()
+    clienteView = ClienteController()
     vooController = VooController()
     reservaController = ReservaController()
 
@@ -20,41 +21,31 @@ class CompanhiaAerea:
         while True:
             Menu.menuPrincipal()
             opcao = input("INFORME A OPÇÃO DESEJADA: ")
-
+            
             if(opcao == "0"):
                 return
 
             elif(opcao == "1"): 
                 os.system("cls")
-                Menu.menuCliente()
+                clienteView = ClienteView()
                 opcao = input("INFORME A OPÇÃO DESEJADA: ")
+                
                 if(opcao == "0"):
                     os.system("cls")
-                    continue
+                    continue 
                 
                 elif (opcao == "1"):
-                    CompanhiaAerea.clienteController.cadastrarCliente()
+                    clienteView.formularioInserir()
                 
                 elif (opcao == "2"):
-                    CompanhiaAerea.clienteController.relatorioCliente()
+                    clienteView.formularioRelatorio()
                 
                 elif(opcao == "3"):
                     os.system("cls")
-                    Menu.menuClienteAtualizar()
-                    opcao = input("INFORME A OPÇÃO DESEJADA: ")
-                    
-                    if(opcao == "0"):
-                        os.system("cls")
-                        continue
-
-                    elif(opcao == "1" or opcao == "2"):
-                        CompanhiaAerea.clienteController.atualizarCliente(opcao)
-
-                    else:
-                        MessageManager.invalidOption()
+                    clienteView.formularioAtualizar()
                 
                 elif(opcao == "4"):
-                    CompanhiaAerea.clienteController.listarClientes()
+                    clienteView.exibirTodos()
                 
                 else:
                     MessageManager.invalidOption()
