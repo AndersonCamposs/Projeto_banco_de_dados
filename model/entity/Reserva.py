@@ -3,8 +3,9 @@ from .Voo import Voo
 from .Cliente import Cliente
 
 class Reserva:
-    def __init__(self, id: Union[int, None], cliente: Cliente, voo: Voo, data: str, valor: float ):
+    def __init__(self, id: Union[int, None],cod: str, cliente: Cliente, voo: Voo, data: str, valor: float ):
         self._id = id
+        self._cod = cod
         self._cliente = cliente
         self._voo = voo
         self._data = data
@@ -13,6 +14,13 @@ class Reserva:
     @property
     def id(self) -> Union[int, None]:
         return self._id
+    
+    @property
+    def cod(self) -> str:
+        return self._cod
+    @cod.setter
+    def cod(self, novoCod):
+        self._cod = novoCod
     
     @property
     def cliente(self) -> Cliente:

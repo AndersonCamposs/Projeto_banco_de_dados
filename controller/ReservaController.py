@@ -32,9 +32,10 @@ class ReservaController:
         print("============================")
         cpfCliente = input("INFORME O CPF DO CLIENTE: ")
         codVoo = input("INFORME O CÓDIGO DO VOO: ")
+        codReserva = input("INFORME O CÓDIGO DA RESERVA: ")
         try:  
             valor = float(input("INFORME O VALOR DA RESERVA: "))
-            self._reservaService.cadastrarReserva(cpfCliente, codVoo, valor)
+            self._reservaService.cadastrarReserva(codReserva, cpfCliente, codVoo, valor)
             MessageManager.customMessage("RESERVA CADASTRADA COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.SUCCESS)
             
         except RegisterNotFoundException as e:
@@ -48,9 +49,9 @@ class ReservaController:
 
 
     def relatorioReserva(self):
-        id = input("INFORME O ID DA RESERVA: ")
+        cod = input("INFORME O CÓDIGO DA RESERVA: ")
         try:
-            reserva = self._reservaService.buscarPorId(int(id))
+            reserva = self._reservaService.buscarPorCod(cod)
             cliente = reserva.cliente
             voo = reserva.voo
             table = PrettyTable()
