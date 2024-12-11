@@ -10,10 +10,10 @@ class VooDAO(GenericDAO):
 
     def insert(self, voo: Voo) -> None:
         self.cursor.execute(
-            '''INSERT INTO Voo(origem, destino, data) VALUES
-            (?, ?, ?)
+            '''INSERT INTO Voo(cod, origem, destino, data) VALUES
+            (?, ?, ?, ?)
             ''',
-            [voo.origem, voo.destino, voo.data]
+            [voo.cod, voo.origem, voo.destino, voo.data]
         )
 
         self.conn.commit()
@@ -26,10 +26,23 @@ class VooDAO(GenericDAO):
                 [id]
             )
             data = self.cursor.fetchone()
-            voo = Voo(id=data[0], origem=data[1], destino=data[2], data=data[3])
+            voo = Voo(id=data[0], cod=data[1], origem=data[2], destino=data[3], data=data[4])
             return voo
         except TypeError:
             raise RegisterNotFoundException("VOO NÃO ENCONTRADO")
+        
+    def getByCod(self, cod: str):
+        try:
+            self.cursor.execute(
+                '''SELECT * FROM Voo WHERE cod = ?''',
+                [cod]
+            )
+            data = self.cursor.fetchone()
+            voo = Voo(id=data[0], cod=data[1], origem=data[2], destino=data[3], data=data[4])
+            return voo
+        except TypeError:
+            raise RegisterNotFoundException("VOO NÃO ENCONTRADO")
+
         
     def delete(self, id: int) -> bool:
         try: 
@@ -47,7 +60,7 @@ class VooDAO(GenericDAO):
             listaVoos = []
             
             for registro in data:
-                listaVoos.append(Voo(registro[0], registro[1], registro[2], registro[3]))
+                listaVoos.append(Voo(registro[0], registro[1], registro[2], registro[3], registro[4]))
 
             if(len(listaVoos) != 0):
                 return listaVoos

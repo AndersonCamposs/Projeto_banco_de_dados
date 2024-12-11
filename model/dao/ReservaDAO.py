@@ -11,9 +11,9 @@ class ReservaDAO(GenericDAO):
 
     def insert(self, reserva: Reserva):
         self.cursor.execute(
-            '''INSERT INTO Reserva (idCliente, idVoo, data, valor)
-            VALUES (?, ?, ?, ?)''',
-            [reserva.cliente, reserva.voo, reserva.data, reserva.valor]
+            '''INSERT INTO Reserva (cod, idCliente, idVoo, data, valor)
+            VALUES (?, ?, ?, ?, ?)''',
+            [reserva.cod, reserva.cliente, reserva.voo, reserva.data, reserva.valor]
         )
         self.conn.commit()
 
@@ -25,7 +25,20 @@ class ReservaDAO(GenericDAO):
                 [id]
             )
             data = self.cursor.fetchone()
-            reserva = Reserva(id=data[0], cliente=ClienteDAO().getById(int(data[1])), voo=VooDAO().getById(int(data[2])), data=data[3], valor=data[4])
+
+            reserva = Reserva(id=data[0], cod=data[1],cliente=ClienteDAO().getById(int(data[2])), voo=VooDAO().getById(int(data[3])), data=data[4], valor=data[5])
+            return reserva
+        except TypeError:
+            raise RegisterNotFoundException("RESERVA NÃO ENCONTRADA")
+        
+    def getByCod(self, cod: str):
+        try:
+            self.cursor.execute(
+                '''SELECT * FROM Reserva WHERE cod = ?''',
+                [cod]
+            )
+            data = self.cursor.fetchone()
+            reserva = Reserva(id=data[0], cod=data[1],cliente=ClienteDAO().getById(int(data[2])), voo=VooDAO().getById(int(data[3])), data=data[4], valor=data[5])
             return reserva
         except TypeError:
             raise RegisterNotFoundException("RESERVA NÃO ENCONTRADA")
@@ -41,7 +54,8 @@ class ReservaDAO(GenericDAO):
             listaReservas = []
             
             for registro in data:
-                reserva = Reserva(id=registro[0], cliente=ClienteDAO().getById(int(registro[1])), voo=VooDAO().getById(int(registro[2])), data=registro[3], valor=registro[4])
+                print(data)
+                reserva = Reserva(id=registro[0], cod=registro[1], cliente=ClienteDAO().getById(int(registro[2])), voo=VooDAO().getById(int(registro[3])), data=registro[4], valor=registro[5])
                 listaReservas.append(reserva)
             
             if(len(listaReservas) != 0):

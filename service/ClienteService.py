@@ -21,7 +21,7 @@ class ClienteService():
         if(email):
             Validator.emailValidation(email)
         with ClienteDAO() as clienteDAO:
-            clienteDAO.clienteDAO.update(id, email, celular)
+            clienteDAO.update(id, email, celular)
 
     def buscarPorCpf(self, cpf: str):
         with ClienteDAO() as clienteDAO:
