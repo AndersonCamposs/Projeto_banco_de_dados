@@ -1,11 +1,8 @@
 from typing import Union
-from prettytable import PrettyTable
-from exceptions.InvalidPatternException import InvalidPatternException
-from exceptions.RegisterNotFoundException import RegisterNotFoundException
 from model.entity import Cliente
 from service.ClienteService import ClienteService
 from utils.Validator import Validator
-from utils.MessageManager import MessageManager
+
 
 class ClienteController:
     def __init__(self):
@@ -21,13 +18,9 @@ class ClienteController:
         Validator.emailValidation(email)
         self._clienteService.cadastrarCliente(nome, cpf, dataNascimento, email, celular)
             
-
     def relatorioCliente(self, cpf) -> Cliente:    
         return self._clienteService.buscarPorCpf(cpf)
             
-        
-        
-
     def atualizarCliente(self, cpf: str, email: Union[str, None], celular: Union[str, None]):
         Validator.cpfValidation(cpf)
         
@@ -37,9 +30,7 @@ class ClienteController:
         elif(celular):
             self._clienteService.atualizarCliente(cliente.id, None, celular)         
         
-
     def listarClientes(self):
-        
         return self._clienteService.listarClientes()
             
         

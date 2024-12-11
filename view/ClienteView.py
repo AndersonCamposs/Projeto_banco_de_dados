@@ -50,9 +50,9 @@ class ClienteView():
     def formularioAtualizar(self):
         Menu.menuClienteAtualizar()
         opcao = input("INFORME A OPÇÃO DESEJADA: ")
-        cpf = input("INFORME O CPF DO CLIENTE: ")
         try:
             if(opcao == "1" or opcao == "2"):
+                cpf = input("INFORME O CPF DO CLIENTE: ")
                 if(opcao == "1"):
                     email = input("INFORME O NOVO E-MAIL DO CLIENTE: ")
                     self._clienteController.atualizarCliente(cpf, email, None)
@@ -60,6 +60,8 @@ class ClienteView():
                     celular = input("INFORME O NOVO CELULAR DO CLIENTE: ")
                     self._clienteController.atualizarCliente(cpf, None, celular)
                 MessageManager.customMessage("CLIENTE ATUALIZADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.SUCCESS)
+            elif(opcao == "0"):
+                return
             else:
                 MessageManager.invalidOption()
         

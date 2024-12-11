@@ -6,14 +6,12 @@ from controller.VooController import VooController
 from controller.ReservaController import ReservaController
 from utils.Menu import Menu
 from utils.MessageManager import MessageManager
+from view.VooView import VooView
 from view.ClienteView import ClienteView
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 class CompanhiaAerea:
-
-    clienteView = ClienteController()
-    vooController = VooController()
     reservaController = ReservaController()
 
     @staticmethod
@@ -52,23 +50,23 @@ class CompanhiaAerea:
                 
             elif(opcao == "2"):
                 os.system("cls")
-                Menu.menuVoo()
+                vooView = VooView()
                 opcao = input("INFORME A OPÇÃO DESEJADA: ")
                 if(opcao == "0"):
                     os.system("cls")
                     continue                 
                 
                 elif(opcao == "1"):
-                    CompanhiaAerea.vooController.cadastraVoo()
+                    vooView.formularioInserir()
 
                 elif(opcao == "2"):
-                    CompanhiaAerea.vooController.relatorioVoo()
+                    vooView.formularioRelatorio()
 
                 elif(opcao == "3"):
-                    CompanhiaAerea.vooController.deletarVoo()
+                    vooView.formularioDeletar()
 
                 elif(opcao == "4"):
-                    CompanhiaAerea.vooController.listarVoos()
+                    vooView.exibirTodos()
 
                 else:
                     MessageManager.invalidOption()
