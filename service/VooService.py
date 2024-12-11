@@ -6,19 +6,23 @@ class VooService:
     def __init__(self):
         pass
 
-    def cadastrarVoo(self, origem: str, destino: str, data: str) -> None:
+    def cadastrarVoo(self, cod, origem: str, destino: str, data: str) -> None:
         Validator.dateValidation(data)
         with VooDAO() as vooDAO:
-            vooDAO.insert(Voo(None, origem, destino, data))
+            vooDAO.insert(Voo(None, cod, origem, destino, data))
 
-    def deletarVoo(self, id:int):
+    def deletarVoo(self, cod: str):
         with VooDAO() as vooDAO:
-            vooDAO.getById(id)
-            vooDAO.delete(id)
+            voo = vooDAO.getByCod(cod)
+            vooDAO.delete(voo.id)
 
     def buscarPorId(self, id: int):
         with VooDAO() as vooDAO:
             return vooDAO.getById(id)
+        
+    def buscarPorCod(self, cod: str):
+        with VooDAO() as vooDAO:
+            return vooDAO.getByCod(cod)
         
     def listarVoos(self):
         with VooDAO() as vooDAO:

@@ -25,6 +25,8 @@ class ReservaDAO(GenericDAO):
                 [id]
             )
             data = self.cursor.fetchone()
+            print(data)
+
             reserva = Reserva(id=data[0], cliente=ClienteDAO().getById(int(data[1])), voo=VooDAO().getById(int(data[2])), data=data[3], valor=data[4])
             return reserva
         except TypeError:

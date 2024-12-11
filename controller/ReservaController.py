@@ -31,10 +31,10 @@ class ReservaController:
     def cadastrarReserva(self):
         print("============================")
         cpfCliente = input("INFORME O CPF DO CLIENTE: ")
-        idVoo = input("INFORME O ID DO VOO: ")
+        codVoo = input("INFORME O CÓDIGO DO VOO: ")
         try:  
             valor = float(input("INFORME O VALOR DA RESERVA: "))
-            self._reservaService.cadastrarReserva(cpfCliente, idVoo, valor)
+            self._reservaService.cadastrarReserva(cpfCliente, codVoo, valor)
             MessageManager.customMessage("RESERVA CADASTRADA COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.SUCCESS)
             
         except RegisterNotFoundException as e:
@@ -63,11 +63,11 @@ class ReservaController:
 
     def listarReservasVoo(self):
         print("============================")
-        idVoo = input("INFORME O ID DO VOO: ")
+        codVoo = input("INFORME O CÓDIGO DO VOO: ")
         try:
-            self._vooService.buscarPorId(int(idVoo))
+            voo = self._vooService.buscarPorCod(codVoo)
         
-            listaReservas = self._reservaService.listarPorVoo(idVoo)
+            listaReservas = self._reservaService.listarPorVoo(voo.id)
             table = PrettyTable()
             table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
             for reserva in listaReservas:

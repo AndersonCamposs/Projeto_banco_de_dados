@@ -1,8 +1,9 @@
 from typing import Union
 
 class Voo:
-    def __init__(self, id: Union[int, None], origem: str, destino: str, data: str ):
+    def __init__(self, id: Union[int, None], cod: str, origem: str, destino: str, data: str ):
         self._id = id
+        self._cod = cod
         self._origem = origem
         self._destino = destino
         self._data = data
@@ -10,6 +11,14 @@ class Voo:
     @property
     def id(self) -> Union[int, None]:
         return self._id
+    
+    @property
+    def cod(self) -> str:
+        return self._cod
+    
+    @cod.setter
+    def cod(self, novoCod):
+        self._cod = novoCod
     
     @property
     def origem(self) -> str:
