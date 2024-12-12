@@ -1,83 +1,67 @@
 import sys
 import os
-from controller import VooController
-from controller.ClienteController import ClienteController
-from controller.VooController import VooController
-from controller.ReservaController import ReservaController
 from utils.Menu import Menu
 from utils.MessageManager import MessageManager
+from view.ReservaView import ReservaView
+from view.VooView import VooView
+from view.ClienteView import ClienteView
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 class CompanhiaAerea:
-
-    clienteController = ClienteController()
-    vooController = VooController()
-    reservaController = ReservaController()
-
     @staticmethod
     def main():
         while True:
             Menu.menuPrincipal()
             opcao = input("INFORME A OPÇÃO DESEJADA: ")
-
+            
             if(opcao == "0"):
                 return
 
             elif(opcao == "1"): 
                 os.system("cls")
-                Menu.menuCliente()
+                clienteView = ClienteView()
                 opcao = input("INFORME A OPÇÃO DESEJADA: ")
+                
                 if(opcao == "0"):
                     os.system("cls")
-                    continue
+                    continue 
                 
                 elif (opcao == "1"):
-                    CompanhiaAerea.clienteController.cadastrarCliente()
+                    clienteView.formularioInserir()
                 
                 elif (opcao == "2"):
-                    CompanhiaAerea.clienteController.relatorioCliente()
+                    clienteView.formularioRelatorio()
                 
                 elif(opcao == "3"):
                     os.system("cls")
-                    Menu.menuClienteAtualizar()
-                    opcao = input("INFORME A OPÇÃO DESEJADA: ")
-                    
-                    if(opcao == "0"):
-                        os.system("cls")
-                        continue
-
-                    elif(opcao == "1" or opcao == "2"):
-                        CompanhiaAerea.clienteController.atualizarCliente(opcao)
-
-                    else:
-                        MessageManager.invalidOption()
+                    clienteView.formularioAtualizar()
                 
                 elif(opcao == "4"):
-                    CompanhiaAerea.clienteController.listarClientes()
+                    clienteView.exibirTodos()
                 
                 else:
                     MessageManager.invalidOption()
                 
             elif(opcao == "2"):
                 os.system("cls")
-                Menu.menuVoo()
+                vooView = VooView()
                 opcao = input("INFORME A OPÇÃO DESEJADA: ")
                 if(opcao == "0"):
                     os.system("cls")
                     continue                 
                 
                 elif(opcao == "1"):
-                    CompanhiaAerea.vooController.cadastraVoo()
+                    vooView.formularioInserir()
 
                 elif(opcao == "2"):
-                    CompanhiaAerea.vooController.relatorioVoo()
+                    vooView.formularioRelatorio()
 
                 elif(opcao == "3"):
-                    CompanhiaAerea.vooController.deletarVoo()
+                    vooView.formularioDeletar()
 
                 elif(opcao == "4"):
-                    CompanhiaAerea.vooController.listarVoos()
+                    vooView.exibirTodos()
 
                 else:
                     MessageManager.invalidOption()
@@ -85,20 +69,20 @@ class CompanhiaAerea:
                 
             elif(opcao == "3"):
                 os.system("cls")
-                Menu.menuReserva()
+                reservaView = ReservaView()
                 opcao = input("INFORME A OPÇÃO DESEJADA: ")
                 if(opcao == "0"):
                     os.system("cls")
                     continue   
 
                 elif(opcao == "1"):
-                    CompanhiaAerea.reservaController.cadastrarReserva()
+                    reservaView.formularioInserir()
                     
                 elif(opcao == "2"):
-                    CompanhiaAerea.reservaController.relatorioReserva()
+                    reservaView.formularioRelatorio()
 
                 elif(opcao == "3"):
-                    CompanhiaAerea.reservaController.listarReservasVoo()
+                    reservaView.exibirTodosPorVoo()
                 
                 else:
                     MessageManager.invalidOption()
