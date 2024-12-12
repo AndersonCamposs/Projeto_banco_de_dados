@@ -1,4 +1,3 @@
-from prettytable import PrettyTable
 from service.VooService import VooService
 from utils.Validator import Validator
 
