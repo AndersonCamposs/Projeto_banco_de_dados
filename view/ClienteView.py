@@ -2,6 +2,7 @@ from prettytable import PrettyTable
 from controller.ClienteController import ClienteController
 from exceptions.InvalidPatternException import InvalidPatternException
 from exceptions.RegisterNotFoundException import RegisterNotFoundException
+from exceptions.RegisterAlreadyExistsException import RegisterAlreadyExistsException
 from utils.Menu import Menu
 from utils.MessageManager import MessageManager
 
@@ -28,6 +29,8 @@ class ClienteView():
             MessageManager.customMessage("CLIENTE CADASTRADO COM SUCESSO, PRESSIONE ENTER PARA CONTINUAR", MessageManager.SUCCESS)
 
         except InvalidPatternException as e:
+            MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
+        except RegisterAlreadyExistsException as e:
             MessageManager.customMessage(f"{str(e)}, PRESSIONE ENTER PARA CONTINUAR", MessageManager.DANGER)
 
     def formularioRelatorio(self):
