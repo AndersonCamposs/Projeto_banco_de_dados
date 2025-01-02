@@ -54,7 +54,6 @@ class ReservaDAO(GenericDAO):
             listaReservas = []
             
             for registro in data:
-                print(data)
                 reserva = Reserva(id=registro[0], cod=registro[1], cliente=ClienteDAO().getById(int(registro[2])), voo=VooDAO().getById(int(registro[3])), data=registro[4], valor=registro[5])
                 listaReservas.append(reserva)
             

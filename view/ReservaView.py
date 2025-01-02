@@ -40,8 +40,8 @@ class ReservaView:
             cliente = reserva.cliente
             voo = reserva.voo
             table = PrettyTable()
-            table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
-            table.add_row([reserva.id, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor])
+            table.field_names = ["CÓD", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
+            table.add_row([reserva.cod, cliente.nome, cliente.cpf, cliente.email, voo.origem, voo.destino, voo.data, reserva.data, reserva.valor])
             print(table)
             MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
         except RegisterNotFoundException as e:
@@ -53,9 +53,9 @@ class ReservaView:
         try:
             listaReservas = self._reservaController.listarReservasVoo(codVoo)
             table = PrettyTable()
-            table.field_names = ["ID DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
+            table.field_names = ["CÓD DA RESERVA", "NOME DO CLIENTE", "CPF DO CLIENTE", "E-MAIL DO CLIENTE", "ORIGEM DO VOO", "DESTINO DO VOO", "DATA DO VOO", "DATA DA RESERVA", "VALOR DA RESERVA"]
             for reserva in listaReservas:
-                table.add_row([reserva.id, reserva.cliente.nome, reserva.cliente.cpf, reserva.cliente.email, reserva.voo.origem, reserva.voo.destino, reserva.voo.data, reserva.data, reserva.valor], divider=True)
+                table.add_row([reserva.cod, reserva.cliente.nome, reserva.cliente.cpf, reserva.cliente.email, reserva.voo.origem, reserva.voo.destino, reserva.voo.data, reserva.data, reserva.valor], divider=True)
 
             print(table)
             MessageManager.customMessage("PRESSIONE ENTER PARA CONTINUAR", MessageManager.INFO)
