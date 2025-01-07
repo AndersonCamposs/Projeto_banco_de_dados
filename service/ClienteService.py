@@ -12,10 +12,6 @@ class ClienteService():
 
     
     def cadastrarCliente(self, nome: str, cpf: str, dataNascimento: str, email: str, celular: str) -> None:
-        Validator.cpfValidation(cpf)
-        Validator.dateValidation(dataNascimento)
-        Validator.emailValidation(email)
-
         with ClienteDAO() as clienteDAO:
             try:  
                 if (clienteDAO.getByCpf(cpf)):
